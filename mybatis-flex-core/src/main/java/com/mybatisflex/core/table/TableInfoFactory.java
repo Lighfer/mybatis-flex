@@ -447,6 +447,7 @@ public class TableInfoFactory {
 
             if (columnAnnotation != null) {
                 columnInfo.setComment(columnAnnotation.comment());
+                columnInfo.setNullStrategy(columnAnnotation.nullStrategy());
             }
 
 

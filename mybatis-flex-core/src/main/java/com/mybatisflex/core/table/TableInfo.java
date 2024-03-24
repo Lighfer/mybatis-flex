@@ -85,6 +85,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.mybatisflex.annotation.NullStrategy.*;
 import static com.mybatisflex.core.constant.SqlConsts.AND;
 import static com.mybatisflex.core.constant.SqlConsts.EQUALS_PLACEHOLDER;
 import static com.mybatisflex.core.constant.SqlConsts.IN;
@@ -472,7 +473,7 @@ public class TableInfo {
                     continue;
                 }
                 Object value = buildColumnSqlArg(metaObject, insertColumn);
-                if (ignoreNulls && value == null) {
+                if (ignoreNulls && value == null && isIgnoreNullForInsert(insertColumn)) {
                     continue;
                 }
                 values.add(value);
@@ -505,7 +506,7 @@ public class TableInfo {
                     retColumns.add(insertColumn);
                 } else {
                     Object value = buildColumnSqlArg(metaObject, insertColumn);
-                    if (value == null) {
+                    if (value == null && isIgnoreNullForInsert(insertColumn)) {
                         continue;
                     }
                     retColumns.add(insertColumn);
@@ -524,7 +525,7 @@ public class TableInfo {
         for (String insertColumn : insertColumns) {
             if (onInsertColumns == null || !onInsertColumns.containsKey(insertColumn)) {
                 Object value = buildColumnSqlArg(metaObject, insertColumn);
-                if (ignoreNulls && value == null) {
+                if (ignoreNulls && value == null && isIgnoreNullForInsert(insertColumn)) {
                     continue;
                 }
                 values.add(value);
@@ -559,7 +560,7 @@ public class TableInfo {
                     retColumns.add(insertColumn);
                 } else {
                     Object value = buildColumnSqlArg(metaObject, insertColumn);
-                    if (value == null) {
+                    if (value == null && isIgnoreNullForInsert(insertColumn)) {
                         continue;
                     }
                     retColumns.add(insertColumn);
@@ -645,7 +646,7 @@ public class TableInfo {
                 }
 
                 Object value = buildColumnSqlArg(metaObject, column);
-                if (ignoreNulls && value == null) {
+                if (ignoreNulls && value == null && isIgnoreNullForUpdate(column)) {
                     continue;
                 }
 
@@ -735,7 +736,7 @@ public class TableInfo {
                 // }
 
                 Object value = buildColumnSqlArg(metaObject, column);
-                if (ignoreNulls && value == null) {
+                if (ignoreNulls && value == null && isIgnoreNullForUpdate(column)) {
                     continue;
                 }
 
@@ -1451,4 +1452,13 @@ public class TableInfo {
         return columnQueryMapping.get(column);
     }
 
+    private boolean isIgnoreNullForInsert(String column) {
+        ColumnInfo columnInfo = columnInfoMapping.get(column);
+        return columnInfo == null || (columnInfo.nullStrategy != KEEP_INSERT && columnInfo.nullStrategy != KEEP_INSERT_UPDATE);
+    }
+
+    private boolean isIgnoreNullForUpdate(String column) {
+        ColumnInfo columnInfo = columnInfoMapping.get(column);
+        return columnInfo == null || (columnInfo.nullStrategy != KEEP_UPDATE && columnInfo.nullStrategy != KEEP_INSERT_UPDATE);
+    }
 }

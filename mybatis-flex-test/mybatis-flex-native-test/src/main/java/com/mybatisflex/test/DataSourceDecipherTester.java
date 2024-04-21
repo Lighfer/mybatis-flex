@@ -32,7 +32,7 @@ public class DataSourceDecipherTester {
 
     public static void main(String[] args) {
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/flex_test");
+        dataSource.setUrl("jdbc:mysql://192.168.9.230:13306/flex_test");
         dataSource.setUsername("root123");
         dataSource.setPassword("123456---0000");
 

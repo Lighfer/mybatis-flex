@@ -110,7 +110,7 @@ VALUES (1, '张三', 18, '2020-01-11'),
 # DataSource Config
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/flex_test
+    url: jdbc:mysql://192.168.9.230:13306/flex_test
     username: root
     password: 12345678
 ```

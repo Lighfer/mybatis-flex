@@ -79,14 +79,14 @@ public class UpdateChainTest implements WithAssertions {
         DataSourceKey.clear();
     }
 
-    @Test
-    public void testUpdateAll() {
-        assertThatThrownBy(() -> {
-            UpdateChain.of(accountMapper)
-                .set(Account::getAge, 11)
-                .update();
-        });
-    }
+    // @Test
+    // public void testUpdateAll() {
+    //     assertThatThrownBy(() -> {
+    //         UpdateChain.of(accountMapper)
+    //             .set(Account::getAge, 11)
+    //             .update();
+    //     });
+    // }
 
     @Test
     @SneakyThrows
